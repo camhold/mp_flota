@@ -1,0 +1,60 @@
+<odoo>
+
+    <record id="vehicle_form_inherit" model="ir.ui.view">
+        <field name="name">fleet.vehicle.inherited</field>
+        <field name="model">fleet.vehicle</field>
+        <field name="inherit_id" ref="fleet.fleet_vehicle_view_form" />
+        <field name="arch" type="xml">
+
+            <xpath expr="//notebook" position="inside">
+                <page string="Otros Datos">
+                    <group>
+                        <group string="GPS">
+                            <field name="gps_brand"/>
+                            <field name="gps_model"/>
+                            <field name="imei"/>
+                            <field name="phone_number"/>
+                        </group>
+                        <group string="Fechas">
+                            <field name="reception_date"/>
+                            <field name="expiration_date" />
+                        
+                        </group>
+                    </group>
+                </page>
+
+
+            </xpath>
+
+            
+         
+
+        </field>
+      </record>
+
+
+      <!-- List view -->
+
+      <record id="fleet_vehicle_inherited" model="ir.ui.view">
+        <field name="name">fleet.vehicle.tree.inherited</field>
+        <field name="model">fleet.vehicle</field>
+        <field name="inherit_id" ref="fleet.fleet_vehicle_view_tree" />
+        <field name="arch" type="xml">
+          <field name="model_id" position="after">
+            <field name="imei" />
+    
+          </field>
+
+          <field name="imei" position="after">
+            <field name="phone_number" />
+    
+          </field>
+    
+        </field>
+      </record>
+
+
+
+
+
+</odoo>

@@ -1,0 +1,342 @@
+<odoo>
+  <!-- Original action -->
+  <record id="contract_form_inherit" model="ir.ui.view">
+    <field name="name">fleet.vehicle.log.contract.inherited</field>
+    <field name="model">fleet.vehicle.log.contract</field>
+    <field name="inherit_id" ref="fleet.fleet_vehicle_log_contract_view_form" />
+    <field name="arch" type="xml">
+      <xpath expr="//field[@name='user_id']" position="before">
+        <field name="contrato_padre_id" />
+      </xpath>
+
+      <!-- Fix: Habilitar esto en local -->
+      <!-- <xpath expr="//field[@name='ins_ref']" position="after">
+        <field name="company_id" />
+      </xpath> -->
+
+      <xpath expr="//field[@name='user_id']" position="attributes">
+        <attribute name="readonly">1</attribute>
+        <attribute name="force_save">1</attribute>
+      </xpath>
+
+      <xpath expr="//field[@name='cost_subtype_id']" position="attributes">
+        <attribute name="readonly">1</attribute>
+        <attribute name="force_save">1</attribute>
+      </xpath>
+
+      <xpath expr="//field[@name='insurer_id']" position="attributes">
+        <attribute name="readonly">1</attribute>
+        <attribute name="force_save">1</attribute>
+      </xpath>
+
+      <xpath expr="//field[@name='ins_ref']" position="attributes">
+        <attribute name="readonly">1</attribute>
+        <attribute name="force_save">1</attribute>
+      </xpath>
+
+      <xpath expr="//field[@name='company_id']" position="attributes">
+        <attribute name="readonly">1</attribute>
+        <attribute name="force_save">1</attribute>
+      </xpath>
+
+
+      <xpath expr="//field[@name='amount']" position="attributes">
+        <attribute name="readonly">1</attribute>
+        <attribute name="force_save">1</attribute>
+      </xpath>
+      <xpath expr="//field[@name='cost_generated']" position="attributes">
+        <attribute name="readonly">1</attribute>
+        <attribute name="force_save">1</attribute>
+      </xpath>
+      <xpath expr="//field[@name='date']" position="attributes">
+        <attribute name="readonly">1</attribute>
+        <attribute name="force_save">1</attribute>
+      </xpath>
+      <xpath expr="//field[@name='start_date']" position="attributes">
+        <attribute name="readonly">1</attribute>
+        <attribute name="force_save">1</attribute>
+      </xpath>
+      <xpath expr="//field[@name='expiration_date']" position="attributes">
+        <attribute name="readonly">1</attribute>
+        <attribute name="force_save">1</attribute>
+      </xpath>
+
+      <xpath expr="//field[@name='cost_frequency']" position="attributes">
+        <attribute name="readonly">1</attribute>
+        <attribute name="force_save">1</attribute>
+      </xpath>
+
+      <xpath expr="//field[@name='vehicle_id']" position="attributes">
+        <attribute name="domain">[('is_in_use_by_contract', '=', False)]</attribute>
+    </xpath>
+
+    <xpath expr="//field[@name='contrato_padre_id']" position="attributes">
+      <attribute name="domain">[('state', '!=', 'closed')]</attribute>
+  </xpath>
+
+     <!--  <xpath expr="//field[@name='vehicle_id']" position="attributes">
+        <attribute name="domain">[('contract_count', '=', 0)]</attribute>
+    </xpath> -->
+
+     <!--  <xpath expr="//field[@name='vehicle_id']" position="attributes">
+        <attribute name="domain">[('vehicle_contract_count', '=', 0)]</attribute>
+    </xpath> -->
+
+ 
+    
+
+      <!-- Testing -->
+     <!--  <xpath expr="//field[@name='vehicle_id']" position="attributes">
+        <attribute name="domain">[('vehicle_contract_count', '=', 0)]</attribute>
+    </xpath>
+ -->
+
+      <!-- <xpath expr="//label[@for='cost_generated']" position="attributes">
+          <attribute name="invisible">True</attribute>
+        </xpath> -->
+
+    </field>
+  </record>
+
+
+  <record id="action_flota_mp" model="ir.actions.act_window">
+    <field name="name">Test1</field>
+    <field name="type">ir.actions.act_window</field>
+    <field name="res_model">fleet.vehicle.log.contract</field>
+    <field name="view_mode">tree,form</field>
+    <field name="context">{}</field>
+    <field name="view_id" ref="contract_form_inherit" />
+
+    <field name="help" type="html">
+      <p class="o_view_nocontent_smiling_face">
+        TEst help
+      </p>
+    </field>
+  </record>
+
+
+  <record id='mp_flotas_fleet_vehicle_action' model='ir.actions.act_window'>
+    <field name="name">Vehiculos</field>
+    <field name="res_model">fleet.vehicle</field>
+    <field name="view_mode">kanban,tree,form,pivot,activity</field>
+    <field name="help" type="html">
+      <p class="o_view_nocontent_smiling_face">
+        Ready to manage your fleet more efficiently ?
+      </p>
+      <p>
+        Let's create your first vehicle.
+      </p>
+    </field>
+  </record>
+
+ <!--  <menuitem name="Flota MP" id="flota_mp_main" action="mp_flotas_fleet_vehicle_action"></menuitem> -->
+
+
+<!--   <menuitem name="Flota" id="flota_mp_flota" action="mp_flotas_fleet_vehicle_action"
+    parent="flota_mp_main"></menuitem>
+  <menuitem name="Flota" id="flota_mp_flota_flota" action="mp_flotas_fleet_vehicle_action"
+    parent="flota_mp_flota" sequence="1"></menuitem> -->
+
+  <!-- Tree view -->
+
+  <record id='mp_flotas_vehicle_log_contract_view_tree' model='ir.ui.view'>
+    <field name="name">fleet.contrato.padre.tree</field>
+    <field name="model">fleet.contrato.padre</field>
+    <field name="arch" type="xml">
+      <tree string="Contract logs"
+        decoration-danger="days_left==0"
+        decoration-muted="state=='closed'"
+        default_order="expiration_date"
+        sample="1">
+        <field name="active" invisible="1" />
+        <field name="codigo" />
+        <!--  <field name="name" class="font-weight-bold" /> -->
+        <!--  <field name="cantidad_hijos"/> -->
+        <field name="date" />
+        <field name="start_date" />
+        <field name="expiration_date" widget="remaining_days" />
+        <field name="days_left" invisible="1" />
+
+        <!-- <field name="vehicle_id"/> -->
+        <field name="insurer_id" />
+        <!--  <field name="purchaser_id" widget="many2one_avatar"/> -->
+        <field name="cost_generated" widget="monetary" />
+        <field name="currency_id" invisible="1" />
+        <field name="cost_frequency" />
+        <field name="state" widget="badge" decoration-info="state == 'open'"
+          decoration-danger="state == 'expired'" />
+        <field name="activity_exception_decoration" widget="activity_exception" />
+      </tree>
+    </field>
+  </record>
+
+
+  <record id='mp_flotas_fleet_vehicle_log_contract_view_form' model='ir.ui.view'>
+    <field name="name">fleet.contrato.padre.form</field>
+    <field name="model">fleet.contrato.padre</field>
+    <field name="arch" type="xml">
+      <form string="Contract logs">
+        <header>
+          <button name="action_open" states="futur" type="object" string="Start Contract"
+            class="oe_highlight" groups="fleet.fleet_group_manager" />
+          <button name="action_close" states="futur" type="object" string="Cancel"
+            groups="fleet.fleet_group_manager" />
+          <button name="action_close" states="open,expired,futur" type="object" class="oe_highlight"
+            string="Close Contract" groups="fleet.fleet_group_manager" />
+          <button name="action_draft" states="closed" type="object" string="Reset To Draft"
+            groups="fleet.fleet_group_manager" />
+          <field name="state" widget="statusbar" />
+        </header>
+        <sheet>
+          <field name="active" invisible="1" />
+          <widget name="web_ribbon" title="Archived" bg_color="bg-danger"
+            attrs="{'invisible': [('active', '=', True)]}" />
+          <field name="currency_id" invisible="1" />
+          <div class="oe_title">
+            <h1>
+              <field name="name" />
+            </h1>
+          </div>
+          <group col="2">
+            <group string="Información del contrato">
+              <field name="codigo" readonly="1" force_save="1" />
+              <field name="user_id" />
+              <!-- No edit or creation -->
+              <field name="cost_subtype_id" options="{'no_create': True, 'no_edit': True,'no_quick_create':True, 'no_open': True,}"/>
+              <field name="insurer_id" options="{'no_create': True, 'no_edit': True,'no_quick_create':True, 'no_open': True,}"/>
+              <field name="ins_ref" options="{'no_create': True, 'no_edit': True,'no_quick_create':True, 'no_open': True,}"/>
+              <field name="company_id" options="{'no_create': True, 'no_edit': True,'no_quick_create':True, 'no_open': True,}"/>
+            </group>
+            <!--  <group string="Vehicle Information">
+                <field name="vehicle_id" />
+                <field name="purchaser_id" />
+              </group> -->
+          </group>
+          <group col="2">
+            <group>
+              <field name="amount" string="Coste de activación"
+                help="Cost that is paid only once at the creation of the contract" widget="monetary" />
+              <label for="cost_generated" />
+              <div class="o_row">
+                <field name="cost_generated" attrs="{'invisible': [('cost_frequency','=','no')]}"
+                  widget="monetary" />
+                <field name="cost_frequency" />
+              </div>
+            </group>
+            <group>
+              <field name="date" string="Fecha de facturación" />
+              <field name="start_date" />
+              <field name="expiration_date" attrs="{'required': [('cost_frequency', '!=', 'no')]}" />
+            </group>
+          </group>
+          <group string="Servicios incluidos">
+            <field name="service_ids" widget="many2many_tags" nolabel="1" />
+          </group>
+          <group string="Términos y condiciones">
+            <field name="notes" nolabel="1"
+              placeholder="Write here all other information relative to this contract" />
+          </group>
+        </sheet>
+        <div class="oe_chatter">
+          <field name="message_follower_ids" />
+          <field name="activity_ids" />
+          <field name="message_ids" />
+        </div>
+      </form>
+    </field>
+  </record>
+
+  <record id="mp_flotas_action_padre" model="ir.actions.act_window">
+    <field name="name">Contratos padre</field>
+    <field name="type">ir.actions.act_window</field>
+    <field name="res_model">fleet.contrato.padre</field>
+    <field name="view_mode">tree,form</field>
+    <field name="context">{}</field>
+    <!-- <field name="view_id" ref="fleet_vehicle_log_contract_view_tree_inherit_mp_flotas"/> -->
+
+    <field name="help" type="html">
+      <p class="o_view_nocontent_smiling_face">
+        Contratos padre help
+      </p>
+    </field>
+  </record>
+<!-- flota_mp_flota  cambio a fleet-->
+  <menuitem name="Contratos Padre" id="flota_mp_flota_contratos_padre"
+    action="mp_flotas_action_padre" parent="fleet.fleet_vehicles" sequence="2"></menuitem>
+
+
+  <!-- Vista de tree para que incluya contrato padre -->
+
+  <record id="contract_list_inherited" model="ir.ui.view">
+    <field name="name">fleet.vehicle.log.contract.tree.inherited</field>
+    <field name="model">fleet.vehicle.log.contract</field>
+    <field name="inherit_id" ref="fleet.fleet_vehicle_log_contract_view_tree" />
+    <field name="arch" type="xml">
+      <field name="name" position="after">
+        <field name="contrato_padre_id" />
+
+      </field>
+
+    </field>
+  </record>
+
+
+  <record id='mp_flotas_fleet_vehicle_log_contract_action' model='ir.actions.act_window'>
+    <field name="name">Contratos</field>
+    <field name="res_model">fleet.vehicle.log.contract</field>
+    <field name="view_mode">tree,kanban,form,graph,pivot,activity</field>
+    <field name="context">{'search_default_open': 1}</field>
+    <field name="help" type="html">
+      <p class="o_view_nocontent_smiling_face">
+        Create a new contract
+      </p>
+      <p>
+        Manage all your contracts (leasing, insurances, etc.) with
+        their related services, costs. Odoo will automatically warn
+        you when some contracts have to be renewed.
+      </p>
+      <p>
+        Each contract (e.g.: leasing) may include several services
+        (reparation, insurances, periodic maintenance).
+      </p>
+    </field>
+  </record>
+
+
+
+  <record id='mp_flotas_fleet_vehicle_log_services_action' model='ir.actions.act_window'>
+    <field name="name">Servicios</field>
+    <field name="res_model">fleet.vehicle.log.services</field>
+    <field name="view_mode">tree,kanban,form,graph,pivot</field>
+    <field name="help" type="html">
+      <p class="o_view_nocontent_smiling_face">
+        Create a new service entry
+      </p>
+      <p>
+        Track all the services done on your vehicle.
+        Services can be of many types: occasional repair, fixed maintenance, etc.
+      </p>
+    </field>
+  </record>
+
+
+
+  <record id='mp_flotas_fleet_vehicle_odometer_action' model='ir.actions.act_window'>
+    <field name="name">Odometro</field>
+    <field name="res_model">fleet.vehicle.odometer</field>
+    <field name="view_mode">tree,kanban,form,graph</field>
+    <field name="context"></field>
+    <field name="help" type="html">
+      <p class="o_view_nocontent_smiling_face">
+        Create a new odometer log
+      </p>
+      <p>
+        You can add various odometer entries for all vehicles.
+      </p>
+    </field>
+  </record>
+
+
+
+
+</odoo>

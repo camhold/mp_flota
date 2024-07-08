@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+      <record id="gps_model_GV300" model="gps.model">
+      	<field name="name">GV300</field>
+      </record>
+      <record id="gps_model_GV300W" model="gps.model">
+        <field name="name">GV300W</field>
+    </record>
+    <record id="gps_model_GL505" model="gps.model">
+        <field name="name">GL505</field>
+    </record>
+    <record id="gps_model_GV55W" model="gps.model">
+        <field name="name">GV55W</field>
+    </record>
+     
+</odoo>

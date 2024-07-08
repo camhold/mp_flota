@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_fleet_contrato_padre,access_fleet_contrato_padre,model_fleet_contrato_padre,base.group_user,1,1,1,0
+access_gps_brand,access_gps_brand,model_gps_brand,base.group_user,1,1,1,0
+access_gps_model,access_gps_model,model_gps_model,base.group_user,1,1,1,0
